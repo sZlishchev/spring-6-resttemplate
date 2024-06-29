@@ -73,6 +73,7 @@ public class BeerClientMockTest {
         
         mockRestServiceServer.expect(method(HttpMethod.GET))
                 .andExpect(requestTo(URL + BeerClientImpl.BEER_PATH))
+                .andExpect(header("Authorization", "Basic dXNlcjpwYXNzd29yZA=="))
                 .andRespond(withSuccess(payload, MediaType.APPLICATION_JSON));
 
         final var beerList = this.beerClient.getBeerList();
@@ -90,6 +91,7 @@ public class BeerClientMockTest {
         
         this.mockRestServiceServer.expect(method(HttpMethod.GET))
             .andExpect(requestTo(uri))
+                .andExpect(header("Authorization", "Basic dXNlcjpwYXNzd29yZA=="))
             .andExpect(queryParam("beerName", dto.getBeerName()))
             .andRespond(withSuccess(payload, MediaType.APPLICATION_JSON));
         
@@ -113,6 +115,7 @@ public class BeerClientMockTest {
     void testCreateBeer() {
         mockRestServiceServer.expect(method(HttpMethod.POST))
                 .andExpect(requestTo(URL + BeerClientImpl.BEER_PATH))
+                .andExpect(header("Authorization", "Basic dXNlcjpwYXNzd29yZA=="))
                 .andRespond(withSuccess(jsonDto, MediaType.APPLICATION_JSON));
 
         final var result = this.beerClient.createBeer(dto);
@@ -125,6 +128,7 @@ public class BeerClientMockTest {
     void testUpdateBeer() {
         mockRestServiceServer.expect(method(HttpMethod.PUT))
                 .andExpect(requestToUriTemplate(URL + BeerClientImpl.BEER_BY_ID_PATH, dto.getId()))
+                .andExpect(header("Authorization", "Basic dXNlcjpwYXNzd29yZA=="))
                 .andRespond(withSuccess(jsonDto, MediaType.APPLICATION_JSON));
         
         runGetOperation();
@@ -139,6 +143,7 @@ public class BeerClientMockTest {
     void testDeleteBeer() {
         mockRestServiceServer.expect(method(HttpMethod.DELETE))
             .andExpect(requestToUriTemplate(URL + BeerClientImpl.BEER_BY_ID_PATH, dto.getId()))
+                .andExpect(header("Authorization", "Basic dXNlcjpwYXNzd29yZA=="))
             .andRespond(withNoContent());
         
         this.beerClient.deleteBeer(dto.getId());
@@ -150,6 +155,7 @@ public class BeerClientMockTest {
     void testDeleteBeerNotFound() {
         mockRestServiceServer.expect(method(HttpMethod.DELETE))
             .andExpect(requestToUriTemplate(URL + BeerClientImpl.BEER_BY_ID_PATH, dto.getId()))
+                .andExpect(header("Authorization", "Basic dXNlcjpwYXNzd29yZA=="))
             .andRespond(withResourceNotFound());
 
         assertThrows(HttpClientErrorException.class, () -> this.beerClient.deleteBeer(dto.getId()));
@@ -177,6 +183,7 @@ public class BeerClientMockTest {
     private void runGetOperation() {
         mockRestServiceServer.expect(method(HttpMethod.GET))
                 .andExpect(requestToUriTemplate(URL + BeerClientImpl.BEER_BY_ID_PATH, dto.getId()))
+                .andExpect(header("Authorization", "Basic dXNlcjpwYXNzd29yZA=="))
                 .andRespond(withSuccess(jsonDto, MediaType.APPLICATION_JSON));
     }
 }
